@@ -21,10 +21,10 @@ public class Disciplina {
         this.cod = cod;
     }
 
-    public Disciplina(int cod, String nome, String endereco) {
+    public Disciplina(int cod, String nome, String professor) {
         this.cod = cod;
         this.nome = nome;
-        this.endereco = endereco;
+        this.professor = professor;
     }
 
     public int getCod() {
