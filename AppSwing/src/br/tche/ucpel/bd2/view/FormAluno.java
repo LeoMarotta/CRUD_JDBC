@@ -4,17 +4,23 @@
  */
 package br.tche.ucpel.bd2.view;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author leomarotta
  */
-public class FormAluno extends javax.swing.JFrame {
+public class FormAluno extends javax.swing.JInternalFrame {
 
+    private JFrame mdi;
+    
     /**
      * Creates new form FormAluno
      */
-    public FormAluno() {
+    public FormAluno(JFrame mdi) {
+        this.mdi = mdi;
         initComponents();
+        //this.atualizaLista();
     }
 
     /**
@@ -45,38 +51,22 @@ public class FormAluno extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+    
+        /*private void atualizaLista() {
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+            AlunoDAO funcDAO = new AlunoDAO(MDISistema.getConexao());
+            List<Aluno> lista = funcDAO.listaTodos();
+            DefaultTableModel dtm = (DefaultTableModel) this.tbAlunos.getModel();
+            dtm.setRowCount(0);
+            for (Funcionario func : lista) {
+                dtm.addRow(new Object[]{func.getCod(), func.getNome(), func.getDtContratacao(), func.getCargo(), func.getGerente(), func.getDepartamento()});
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormAluno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormAluno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormAluno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FormAluno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this.mdi, String.format("Erro ao ler os Departamentos:%s", ex.getMessage()), "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(FormDepartamento.class.getName()).log(Level.WARNING, "Erro ao ler os Departamentos", ex);
         }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FormAluno().setVisible(true);
-            }
-        });
-    }
-
+    }*/
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

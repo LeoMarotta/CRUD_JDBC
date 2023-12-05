@@ -25,6 +25,9 @@ public class MDISistema extends javax.swing.JFrame {
 
     private FormFuncionario formFuncionario;
     private FormDepartamento formDepartamento;
+    private FormAluno formAluno;
+    private FormDisciplina formDisciplina;
+    private FormMatricula formMatricula;
     private static Connection conexao;
     
 
@@ -48,9 +51,9 @@ public class MDISistema extends javax.swing.JFrame {
         mnDepartamento = new javax.swing.JMenuItem();
         mnFuncionario = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JSeparator();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        mnAluno = new javax.swing.JMenuItem();
+        mnDisciplina = new javax.swing.JMenuItem();
+        mnMatricula = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JSeparator();
         exitMenuItem = new javax.swing.JMenuItem();
         mnAjuda = new javax.swing.JMenu();
@@ -87,14 +90,29 @@ public class MDISistema extends javax.swing.JFrame {
         Cadastros.add(mnFuncionario);
         Cadastros.add(jSeparator2);
 
-        jMenuItem1.setText("Aluno");
-        Cadastros.add(jMenuItem1);
+        mnAluno.setText("Aluno");
+        mnAluno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnAlunoActionPerformed(evt);
+            }
+        });
+        Cadastros.add(mnAluno);
 
-        jMenuItem2.setText("Disciplina");
-        Cadastros.add(jMenuItem2);
+        mnDisciplina.setText("Disciplina");
+        mnDisciplina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnDisciplinaActionPerformed(evt);
+            }
+        });
+        Cadastros.add(mnDisciplina);
 
-        jMenuItem3.setText("Matricula do Aluno");
-        Cadastros.add(jMenuItem3);
+        mnMatricula.setText("Matricula do Aluno");
+        mnMatricula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnMatriculaActionPerformed(evt);
+            }
+        });
+        Cadastros.add(mnMatricula);
         Cadastros.add(jSeparator1);
 
         exitMenuItem.setText("Sair");
@@ -130,15 +148,15 @@ public class MDISistema extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 883, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 873, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)
         );
 
-        java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds((screenSize.width-889)/2, (screenSize.height-599)/2, 889, 599);
+        setSize(new java.awt.Dimension(889, 599));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
@@ -152,8 +170,6 @@ private void mnDepartamentoActionPerformed(java.awt.event.ActionEvent evt) {//GE
         this.desktopPane.add(this.formDepartamento);
     }
     this.openJanela(this.formDepartamento);
-
-
 }//GEN-LAST:event_mnDepartamentoActionPerformed
 
 private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -201,6 +217,33 @@ private void mnSobreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
     JOptionPane.showMessageDialog(this, "Protótipo para exemplificar conteúdo \nde Laboratório de Programação I\nENGC/UCPel\n\nProf.: Luciano Edson Mertins", "Protótipo Cadastros Swing", JOptionPane.INFORMATION_MESSAGE);
 }//GEN-LAST:event_mnSobreActionPerformed
 
+    private void mnAlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnAlunoActionPerformed
+        // TODO add your handling code here:
+        if (this.formAluno == null) {
+        this.formAluno = new FormAluno(this);
+        this.desktopPane.add(this.formAluno);
+    }
+    this.openJanela(this.formAluno);
+    }//GEN-LAST:event_mnAlunoActionPerformed
+
+    private void mnDisciplinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnDisciplinaActionPerformed
+        // TODO add your handling code here:
+        if (this.formDisciplina == null) {
+        this.formDisciplina = new FormDisciplina(this);
+        this.desktopPane.add(this.formDisciplina);
+    }
+    this.openJanela(this.formDisciplina);
+    }//GEN-LAST:event_mnDisciplinaActionPerformed
+
+    private void mnMatriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnMatriculaActionPerformed
+        // TODO add your handling code here:
+        if (this.formMatricula == null) {
+        this.formMatricula = new FormMatricula(this);
+        this.desktopPane.add(this.formMatricula);
+    }
+    this.openJanela(this.formMatricula);
+    }//GEN-LAST:event_mnMatriculaActionPerformed
+
 private void openJanela(JComponent obj){
     if (!obj.isVisible()){
         if (!obj.isValid()){
@@ -233,15 +276,15 @@ private void openJanela(JComponent obj){
     private javax.swing.JMenu Cadastros;
     private javax.swing.JDesktopPane desktopPane;
     private javax.swing.JMenuItem exitMenuItem;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu mnAjuda;
+    private javax.swing.JMenuItem mnAluno;
     private javax.swing.JMenuItem mnDepartamento;
+    private javax.swing.JMenuItem mnDisciplina;
     private javax.swing.JMenuItem mnFuncionario;
+    private javax.swing.JMenuItem mnMatricula;
     private javax.swing.JMenuItem mnSobre;
     // End of variables declaration//GEN-END:variables
 
