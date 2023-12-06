@@ -72,10 +72,10 @@ public class FormAluno extends javax.swing.JInternalFrame {
 
         tbAlunos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {}
+
             },
             new String [] {
-
+                "Código", "Nome", "Endereço", "Telefone"
             }
         ));
         tbAlunos.setToolTipText("");
@@ -244,20 +244,22 @@ public class FormAluno extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btExcluirActionPerformed
 
-    private void atualizaLista() {
-        try {
-            AlunoDAO alunoDAO = new AlunoDAO(MDISistema.getConexao());
-            List<Aluno> lista = alunoDAO.listaTodos();
-            DefaultTableModel dtm = (DefaultTableModel) tbAlunos.getModel();
-            dtm.setRowCount(0);
-            for (Aluno aluno : lista) {
-                dtm.addRow(new Object[]{aluno.getCod(), aluno.getNome(), aluno.getEndereco(), aluno.getTelefone()});
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(mdi, String.format("Erro ao ler os Alunos: %s", ex.getMessage()), "Erro", JOptionPane.ERROR_MESSAGE);
-            Logger.getLogger(FormAluno.class.getName()).log(Level.WARNING, "Erro ao ler os Alunos", ex);
+private void atualizaLista() {
+    try {
+        AlunoDAO alunoDAO = new AlunoDAO(MDISistema.getConexao());
+        List<Aluno> lista = alunoDAO.listaTodos();
+        DefaultTableModel dtm = (DefaultTableModel) tbAlunos.getModel();
+        dtm.setRowCount(0);
+        for (Aluno aluno : lista) {
+            dtm.addRow(new Object[]{aluno.getCod(), aluno.getNome(), aluno.getEndereco(), aluno.getTelefone()});
         }
+        dtm.fireTableDataChanged();
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(mdi, String.format("Erro ao ler os Alunos: %s", ex.getMessage()), "Erro", JOptionPane.ERROR_MESSAGE);
+        Logger.getLogger(FormAluno.class.getName()).log(Level.WARNING, "Erro ao ler os Alunos", ex);
     }
+}
+
         
    private void limpaTela() {
         txtCodigo.setEnabled(true);
