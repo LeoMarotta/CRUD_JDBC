@@ -30,6 +30,8 @@ public class Conexao {
         Class.forName("org.postgresql.Driver");
 //        return DriverManager.getConnection("jdbc:postgresql://localhost/BaseUCPel", "aluno", "qpwo");
 //        Class.forName("org.apache.derby.jdbc.ClientDriver");
-        return DriverManager.getConnection("jdbc:postgresql://localhost:5432/JavaTreinamento", "mmsis", "teste12");
+        return DriverManager.getConnection(
+                "jdbc:postgresql://localhost:5432/JavaTreinamento",
+                "mmsis", "teste12");
     }
 }

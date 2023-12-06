@@ -5,8 +5,15 @@
 package br.tche.ucpel.bd2.view;
 
 import br.tche.ucpel.bd2.bean.Aluno;
+import br.tche.ucpel.bd2.dao.AlunoDAO;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -40,16 +47,16 @@ public class FormAluno extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        txtCodigo = new javax.swing.JTextField();
+        txtEndereco = new javax.swing.JTextField();
+        txtNome = new javax.swing.JTextField();
+        txtTelefone = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbAlunos = new javax.swing.JTable();
         btAtualizar = new javax.swing.JButton();
+        btLimpar = new javax.swing.JButton();
+        btSalvar = new javax.swing.JButton();
+        btExcluir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de Aluno");
@@ -62,12 +69,6 @@ public class FormAluno extends javax.swing.JInternalFrame {
         jLabel3.setText("Endereço:");
 
         jLabel4.setText("Telefone:");
-
-        jButton1.setText("Excluir");
-
-        jButton2.setText("Salvar");
-
-        jButton3.setText("LImpar");
 
         tbAlunos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -93,6 +94,27 @@ public class FormAluno extends javax.swing.JInternalFrame {
             }
         });
 
+        btLimpar.setText("Limpar");
+        btLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btLimparActionPerformed(evt);
+            }
+        });
+
+        btSalvar.setText("Salvar");
+        btSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btSalvarActionPerformed(evt);
+            }
+        });
+
+        btExcluir.setText("Excluir");
+        btExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btExcluirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -108,24 +130,24 @@ public class FormAluno extends javax.swing.JInternalFrame {
                             .addComponent(jLabel4))
                         .addGap(26, 26, 26)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField3)
+                            .addComponent(txtNome)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jTextField2)))
+                            .addComponent(txtEndereco)))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 571, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btAtualizar, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jButton3)
+                                .addComponent(btLimpar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton2)
+                                .addComponent(btSalvar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1))
-                            .addComponent(btAtualizar, javax.swing.GroupLayout.Alignment.TRAILING))))
+                                .addComponent(btExcluir)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -134,24 +156,24 @@ public class FormAluno extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(btExcluir)
+                    .addComponent(btSalvar)
+                    .addComponent(btLimpar))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -164,53 +186,132 @@ public class FormAluno extends javax.swing.JInternalFrame {
 
     
     private void tbAlunosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbAlunosMouseClicked
-        // TODO add your handling code here:
         if (evt.getClickCount() > 1) {
             JTable obj = (JTable) evt.getComponent();
             int linha = obj.getSelectedRow();
             Integer cod = (Integer) obj.getModel().getValueAt(linha, 0);
-            Aluno dept = new Aluno(cod);
-            //this.preencheTela(dept);
+            Aluno aluno = new Aluno(cod);
+            preencheTelaAluno(aluno); // Chame o método para preencher os campos com os dados do aluno
         }
     }//GEN-LAST:event_tbAlunosMouseClicked
 
     private void btAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtualizarActionPerformed
-        //this.atualizaLista();
+        this.atualizaLista();
     }//GEN-LAST:event_btAtualizarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    
-        /*private void atualizaLista() {
+    private void btLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimparActionPerformed
+        this.limpaTela();
+    }//GEN-LAST:event_btLimparActionPerformed
+
+    private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
         try {
-            AlunoDAO funcDAO = new AlunoDAO(MDISistema.getConexao());
-            List<Aluno> lista = funcDAO.listaTodos();
-            DefaultTableModel dtm = (DefaultTableModel) this.tbAlunos.getModel();
-            dtm.setRowCount(0);
-            for (Funcionario func : lista) {
-                dtm.addRow(new Object[]{func.getCod(), func.getNome(), func.getDtContratacao(), func.getCargo(), func.getGerente(), func.getDepartamento()});
+            AlunoDAO alunoDAO = new AlunoDAO(MDISistema.getConexao());
+            int cod = this.intCampoTelas(txtCodigo.getText());
+            if (cod > 0) {
+                Aluno aluno = new Aluno(cod, txtNome.getText(), 
+                        txtEndereco.getText(), 
+                        Long.valueOf(txtTelefone.getText()));
+                alunoDAO.create(aluno);
+            } else {
+                Aluno aluno = new Aluno(0, txtNome.getText(), 
+                        txtEndereco.getText(), 
+                        Long.valueOf(txtTelefone.getText()));
+                alunoDAO.create(aluno);
+                txtCodigo.setText(Integer.toString(aluno.getCod()));
+            }
+            JOptionPane.showMessageDialog(mdi, "Registro Salvo");
+            limpaTela();
+            atualizaLista();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(mdi, String.format("Erro ao salvar aluno: %s", ex.getMessage()), "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(FormAluno.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btSalvarActionPerformed
+
+    private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
+        try {
+            int cod = this.intCampoTelas(txtCodigo.getText());
+            if (cod > 0) {
+                Aluno aluno = new Aluno(cod);
+                AlunoDAO alunoDAO = new AlunoDAO(MDISistema.getConexao());
+                alunoDAO.delete(aluno);
+                limpaTela();
+                atualizaLista();
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this.mdi, String.format("Erro ao ler os Departamentos:%s", ex.getMessage()), "Erro", JOptionPane.ERROR_MESSAGE);
-            Logger.getLogger(FormDepartamento.class.getName()).log(Level.WARNING, "Erro ao ler os Departamentos", ex);
+            JOptionPane.showMessageDialog(mdi, String.format("Erro ao excluir aluno: %s", ex.getMessage()), "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(FormAluno.class.getName()).log(Level.WARNING, "Erro ao excluir aluno", ex);
         }
-    }*/
+    }//GEN-LAST:event_btExcluirActionPerformed
+
+    private void atualizaLista() {
+        try {
+            AlunoDAO alunoDAO = new AlunoDAO(MDISistema.getConexao());
+            List<Aluno> lista = alunoDAO.listaTodos();
+            DefaultTableModel dtm = (DefaultTableModel) tbAlunos.getModel();
+            dtm.setRowCount(0);
+            for (Aluno aluno : lista) {
+                dtm.addRow(new Object[]{aluno.getCod(), aluno.getNome(), aluno.getEndereco(), aluno.getTelefone()});
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(mdi, String.format("Erro ao ler os Alunos: %s", ex.getMessage()), "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(FormAluno.class.getName()).log(Level.WARNING, "Erro ao ler os Alunos", ex);
+        }
+    }
+        
+   private void limpaTela() {
+        txtCodigo.setEnabled(true);
+        txtCodigo.setText(null);
+        txtNome.setText(null);
+        txtEndereco.setText(null);
+        txtTelefone.setText(null);
+    }       
+   
+    private int intCampoTelas(String valor) {
+        int ret = 0;
+        try {
+            ret = Integer.parseInt(valor);
+        } catch (NumberFormatException ex) {
+        }
+        return ret;
+    }
+    
+    
+    private boolean preencheTelaAluno(Aluno aluno) {
+        boolean ret = false;
+        try {
+            AlunoDAO alunoDAO = new AlunoDAO(MDISistema.getConexao());
+            aluno = alunoDAO.retrieve(aluno);
+            if (aluno != null && aluno.getCod() > 0) {
+                this.txtCodigo.setText(Integer.toString(aluno.getCod()));
+                this.txtCodigo.setEnabled(false);
+                this.txtNome.setText(aluno.getNome());
+                this.txtEndereco.setText(aluno.getEndereco());
+                this.txtTelefone.setText(aluno.getTelefone().toString());
+                ret = true;
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this.mdi, String.format("Não foi possível carregar Aluno: %s", ex.getMessage()), "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(FormAluno.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ret;
+    }
+
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAtualizar;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btExcluir;
+    private javax.swing.JButton btLimpar;
+    private javax.swing.JButton btSalvar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JTable tbAlunos;
+    private javax.swing.JTextField txtCodigo;
+    private javax.swing.JTextField txtEndereco;
+    private javax.swing.JTextField txtNome;
+    private javax.swing.JTextField txtTelefone;
     // End of variables declaration//GEN-END:variables
 }

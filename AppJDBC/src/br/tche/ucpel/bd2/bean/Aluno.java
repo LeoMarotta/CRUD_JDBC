@@ -13,7 +13,7 @@ public class Aluno {
     private int cod;
     private String nome;
     private String endereco;
-    private int telefone;
+    private Long telefone;
 
     public Aluno() {
     }
@@ -22,7 +22,7 @@ public class Aluno {
         this.cod = cod;
     }
 
-    public Aluno(int cod, String nome, String endereco, int telefone) {
+    public Aluno(int cod, String nome, String endereco, Long telefone) {
         this.cod = cod;
         this.nome = nome;
         this.endereco = endereco;
@@ -53,11 +53,11 @@ public class Aluno {
         this.endereco = endereco;
     }
 
-    public int getTelefone() {
+    public Long getTelefone() {
         return telefone;
     }
 
-    public void setTelefone(int telefone) {
+    public void setTelefone(Long telefone) {
         this.telefone = telefone;
     }
 
