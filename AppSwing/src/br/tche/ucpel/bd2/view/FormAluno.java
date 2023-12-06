@@ -31,7 +31,7 @@ public class FormAluno extends javax.swing.JInternalFrame {
         initComponents();
         setClosable(true);
         setIconifiable(true);
-        //this.atualizaLista();
+
     }
 
     /**

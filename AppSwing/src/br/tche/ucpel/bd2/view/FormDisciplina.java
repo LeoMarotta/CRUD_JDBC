@@ -5,8 +5,15 @@
 package br.tche.ucpel.bd2.view;
 
 import br.tche.ucpel.bd2.bean.Disciplina;
+import br.tche.ucpel.bd2.dao.DisciplinaDAO;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -15,16 +22,13 @@ import javax.swing.JTable;
 public class FormDisciplina extends javax.swing.JInternalFrame {
 
     private JFrame mdi;    
-    
-    /**
-     * Creates new form FormDisciplina
-     */
+
     public FormDisciplina(JFrame mdi) {
         this.mdi = mdi;
         initComponents();
         setClosable(true);
         setIconifiable(true);
-        //this.atualizaLista();
+
     }
 
     /**
@@ -39,12 +43,12 @@ public class FormDisciplina extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        txtCodigo = new javax.swing.JTextField();
+        txtNome = new javax.swing.JTextField();
+        txtProfessor = new javax.swing.JTextField();
+        btLimpar = new javax.swing.JButton();
+        btSalvar = new javax.swing.JButton();
+        btExcluir = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbDisciplinas = new javax.swing.JTable();
         btAtualizar = new javax.swing.JButton();
@@ -58,11 +62,26 @@ public class FormDisciplina extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Professor");
 
-        jButton3.setText("LImpar");
+        btLimpar.setText("LImpar");
+        btLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btLimparActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Salvar");
+        btSalvar.setText("Salvar");
+        btSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btSalvarActionPerformed(evt);
+            }
+        });
 
-        jButton1.setText("Excluir");
+        btExcluir.setText("Excluir");
+        btExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btExcluirActionPerformed(evt);
+            }
+        });
 
         tbDisciplinas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -106,7 +125,7 @@ public class FormDisciplina extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(47, 47, 47)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -115,19 +134,19 @@ public class FormDisciplina extends javax.swing.JInternalFrame {
                         .addGap(28, 28, 28)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtProfessor, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jTextField3)))
+                            .addComponent(txtNome)))
                     .addComponent(jScrollPane2)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jButton3)
+                                .addComponent(btLimpar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton2)
+                                .addComponent(btSalvar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1))
+                                .addComponent(btExcluir))
                             .addComponent(btAtualizar, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
         );
@@ -137,20 +156,20 @@ public class FormDisciplina extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtProfessor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(btLimpar)
+                    .addComponent(btExcluir)
+                    .addComponent(btSalvar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -162,37 +181,126 @@ public class FormDisciplina extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tbDisciplinasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbDisciplinasMouseClicked
-        // TODO add your handling code here:
         if (evt.getClickCount() > 1) {
             JTable obj = (JTable) evt.getComponent();
             int linha = obj.getSelectedRow();
             Integer cod = (Integer) obj.getModel().getValueAt(linha, 0);
-            Disciplina dept = new Disciplina(cod);
-            //this.preencheTela(dept);
+            Disciplina disciplina = new Disciplina(cod);
+            preencheTelaDisciplina(disciplina); // Chame o método para preencher os campos com os dados da disciplina
         }
     }//GEN-LAST:event_tbDisciplinasMouseClicked
 
+    private boolean preencheTelaDisciplina(Disciplina disciplina) {
+        boolean ret = false;
+        try {
+            DisciplinaDAO disciplinaDAO = new DisciplinaDAO(MDISistema.getConexao());
+            disciplina = disciplinaDAO.retrieve(disciplina);
+            if (disciplina != null && disciplina.getCod() > 0) {
+                this.txtCodigo.setText(Integer.toString(disciplina.getCod()));
+                this.txtCodigo.setEnabled(false);
+                this.txtNome.setText(disciplina.getNome());
+                this.txtProfessor.setText(disciplina.getProfessor());
+                ret = true;
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this.mdi, String.format("Não foi possível carregar Disciplina: %s", ex.getMessage()), "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(FormDisciplina.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ret;
+    }
+    
     private void btAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtualizarActionPerformed
-        //this.atualizaLista();
+        this.atualizaLista();
     }//GEN-LAST:event_btAtualizarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
+        try {
+            int cod = this.intCampoTelas(txtCodigo.getText());
+            if (cod > 0) {
+                Disciplina disciplina = new Disciplina(cod);
+                DisciplinaDAO disciplinaDAO = new DisciplinaDAO(MDISistema.getConexao());
+                disciplinaDAO.delete(disciplina);
+                limpaTela();
+                atualizaLista();
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(mdi, String.format("Erro ao excluir disciplina: %s", ex.getMessage()), "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(FormDisciplina.class.getName()).log(Level.WARNING, "Erro ao excluir disciplina", ex);
+        }
+    }//GEN-LAST:event_btExcluirActionPerformed
 
+    private void btLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimparActionPerformed
+        this.limpaTela();
+    }//GEN-LAST:event_btLimparActionPerformed
+
+    private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
+        try {
+            DisciplinaDAO disciplinaDAO = new DisciplinaDAO(MDISistema.getConexao());
+            int cod = this.intCampoTelas(txtCodigo.getText());
+            if (cod > 0) {
+                Disciplina disciplina = new Disciplina(cod, txtNome.getText(), 
+                        txtProfessor.getText());
+                disciplinaDAO.create(disciplina);
+            } else {
+                Disciplina disciplina = new Disciplina(0, txtNome.getText(), 
+                        txtProfessor.getText());
+                disciplinaDAO.create(disciplina);
+                txtCodigo.setText(Integer.toString(disciplina.getCod()));
+            }
+            JOptionPane.showMessageDialog(mdi, "Registro Salvo");
+            limpaTela();
+            atualizaLista();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(mdi, String.format("Erro ao salvar disciplina: %s", ex.getMessage()), "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(FormDisciplina.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btSalvarActionPerformed
+
+    private void atualizaLista() {
+        try {
+            DisciplinaDAO disciplinaDAO = new DisciplinaDAO(MDISistema.getConexao());
+            List<Disciplina> lista = disciplinaDAO.listaTodos();
+            DefaultTableModel dtm = (DefaultTableModel) tbDisciplinas.getModel();
+            dtm.setRowCount(0);
+            for (Disciplina disciplina : lista) {
+                dtm.addRow(new Object[]{disciplina.getCod(), disciplina.getNome(), disciplina.getProfessor()});
+            }
+            dtm.fireTableDataChanged();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(mdi, String.format("Erro ao ler as Disciplinas: %s", ex.getMessage()), "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(FormDisciplina.class.getName()).log(Level.WARNING, "Erro ao ler as Disciplinas", ex);
+        }
+    }
+    
+    private void limpaTela() {
+        txtCodigo.setEnabled(true);
+        txtCodigo.setText(null);
+        txtNome.setText(null);
+        txtProfessor.setText(null);
+
+    }
+    
+    private int intCampoTelas(String valor) {
+        int ret = 0;
+        try {
+            ret = Integer.parseInt(valor);
+        } catch (NumberFormatException ex) {
+        }
+        return ret;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAtualizar;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btExcluir;
+    private javax.swing.JButton btLimpar;
+    private javax.swing.JButton btSalvar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTable tbDisciplinas;
+    private javax.swing.JTextField txtCodigo;
+    private javax.swing.JTextField txtNome;
+    private javax.swing.JTextField txtProfessor;
     // End of variables declaration//GEN-END:variables
 }
