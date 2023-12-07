@@ -28,8 +28,8 @@ public class FormMatricula extends javax.swing.JInternalFrame {
 
     private JFrame mdi;    
     private Connection conexao;
-    private DisciplinaDAO disciplinaDAO;
-    private AlunoDAO alunoDAO;
+    private final DisciplinaDAO disciplinaDAO;
+    private final AlunoDAO alunoDAO;
     
     /**
      * Creates new form FormMatricula
@@ -63,6 +63,10 @@ public class FormMatricula extends javax.swing.JInternalFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tbAlunos = new javax.swing.JTable();
         btAtualizar = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        txtCodigoA = new javax.swing.JTextField();
+        txtCodigoD = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de Matricula");
@@ -122,6 +126,22 @@ public class FormMatricula extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel3.setText("Cod Aluno:");
+
+        jLabel4.setText("Cod Disciplina:");
+
+        txtCodigoA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCodigoAActionPerformed(evt);
+            }
+        });
+
+        txtCodigoD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCodigoDActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -129,16 +149,6 @@ public class FormMatricula extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
-                        .addGap(47, 47, 47)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtNome)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -149,21 +159,45 @@ public class FormMatricula extends javax.swing.JInternalFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btSalvar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btExcluir)))))
+                                .addComponent(btExcluir))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtNome)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtCodigoD, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtCodigoA, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(65, 65, 65)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(txtCodigoA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel4))
+                    .addComponent(txtCodigoD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(9, 9, 9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btExcluir)
                     .addComponent(btSalvar)
@@ -172,7 +206,7 @@ public class FormMatricula extends javax.swing.JInternalFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btAtualizar)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(11, Short.MAX_VALUE))
         );
 
         pack();
@@ -187,8 +221,8 @@ public class FormMatricula extends javax.swing.JInternalFrame {
             MatriculaDAO matriculaDAO = new MatriculaDAO(MDISistema.getConexao());
             int cod = this.intCampoTelas(txtCodigo.getText());
             if (cod > 0) {
-                Disciplina disciplinaAssociada = disciplinaDAO.retrieve(new Disciplina(txtCodigo));
-                Aluno alunoAssociado = alunoDAO.retrieve(new Aluno(txtCodigo));
+                Disciplina disciplinaAssociada = disciplinaDAO.retrieve(new Disciplina(Integer.parseInt(txtCodigoD.getText())));
+                Aluno alunoAssociado = alunoDAO.retrieve(new Aluno(Integer.parseInt(txtCodigoA.getText())));
                 Matricula matricula = new Matricula(cod, txtNome.getText(), disciplinaAssociada, alunoAssociado); 
                 matriculaDAO.create(matricula);
             } else {
@@ -239,6 +273,14 @@ public class FormMatricula extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCodigoActionPerformed
 
+    private void txtCodigoAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoAActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCodigoAActionPerformed
+
+    private void txtCodigoDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCodigoDActionPerformed
+
     private int intCampoTelas(String valor) {
         int ret = 0;
         try {
@@ -252,8 +294,8 @@ public class FormMatricula extends javax.swing.JInternalFrame {
         txtCodigo.setEnabled(true);
         txtCodigo.setText(null);
         txtNome.setText(null);
-        txtEndereco.setText(null);
-        txtTelefone.setText(null);
+        txtCodigoA.setText(null);
+        txtCodigoD.setText(null);
     }   
    
    
@@ -287,12 +329,8 @@ public class FormMatricula extends javax.swing.JInternalFrame {
                 this.txtCodigo.setText(Integer.toString(matricula.getCod()));
                 this.txtCodigo.setEnabled(false);
                 this.txtNome.setText(matricula.getNome());
-
-                // Aqui você precisa adaptar conforme a estrutura da classe Matricula
-                // Considerando que Matricula tem Disciplina e Aluno
-                this.txtEndereco.setText(matricula.getAluno().getEndereco());
-                this.txtTelefone.setText(matricula.getAluno().getTelefone().toString());
-
+                this.txtCodigoA.setText(String.valueOf(matricula.getAluno().getCod()));
+                this.txtCodigoD.setText(String.valueOf(matricula.getDisciplina().getCod()));
                 ret = true;
             }
         } catch (SQLException ex) {
@@ -309,9 +347,13 @@ public class FormMatricula extends javax.swing.JInternalFrame {
     private javax.swing.JButton btSalvar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tbAlunos;
     private javax.swing.JTextField txtCodigo;
+    private javax.swing.JTextField txtCodigoA;
+    private javax.swing.JTextField txtCodigoD;
     private javax.swing.JTextField txtNome;
     // End of variables declaration//GEN-END:variables
 }
