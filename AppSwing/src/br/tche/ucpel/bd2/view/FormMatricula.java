@@ -5,13 +5,19 @@
 package br.tche.ucpel.bd2.view;
 
 import br.tche.ucpel.bd2.bean.Aluno;
+import br.tche.ucpel.bd2.bean.Disciplina;
+import br.tche.ucpel.bd2.bean.Matricula;
 import br.tche.ucpel.bd2.dao.AlunoDAO;
+import br.tche.ucpel.bd2.dao.DisciplinaDAO;
+import br.tche.ucpel.bd2.dao.MatriculaDAO;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -21,6 +27,9 @@ import javax.swing.table.DefaultTableModel;
 public class FormMatricula extends javax.swing.JInternalFrame {
 
     private JFrame mdi;    
+    private Connection conexao;
+    private DisciplinaDAO disciplinaDAO;
+    private AlunoDAO alunoDAO;
     
     /**
      * Creates new form FormMatricula
@@ -30,7 +39,9 @@ public class FormMatricula extends javax.swing.JInternalFrame {
         initComponents();
         setClosable(true);
         setIconifiable(true);
-        //this.atualizaLista();
+        this.conexao = conexao;
+        this.disciplinaDAO = new DisciplinaDAO(conexao);
+        this.alunoDAO = new AlunoDAO(conexao);
     }
 
     /**
@@ -45,11 +56,7 @@ public class FormMatricula extends javax.swing.JInternalFrame {
         txtNome = new javax.swing.JTextField();
         txtCodigo = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        txtTelefone = new javax.swing.JTextField();
-        txtEndereco = new javax.swing.JTextField();
         btLimpar = new javax.swing.JButton();
         btSalvar = new javax.swing.JButton();
         btExcluir = new javax.swing.JButton();
@@ -60,13 +67,15 @@ public class FormMatricula extends javax.swing.JInternalFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de Matricula");
 
+        txtCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCodigoActionPerformed(evt);
+            }
+        });
+
         jLabel1.setText("Código");
 
-        jLabel4.setText("Telefone:");
-
         jLabel2.setText("Nome:");
-
-        jLabel3.setText("Endereço:");
 
         btLimpar.setText("Limpar");
         btLimpar.addActionListener(new java.awt.event.ActionListener() {
@@ -123,18 +132,13 @@ public class FormMatricula extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel4))
-                        .addGap(26, 26, 26)
+                            .addComponent(jLabel2))
+                        .addGap(47, 47, 47)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNome)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(txtEndereco)))
+                                .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -157,17 +161,9 @@ public class FormMatricula extends javax.swing.JInternalFrame {
                     .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(65, 65, 65)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btExcluir)
                     .addComponent(btSalvar)
@@ -176,7 +172,7 @@ public class FormMatricula extends javax.swing.JInternalFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btAtualizar)
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         pack();
@@ -188,26 +184,24 @@ public class FormMatricula extends javax.swing.JInternalFrame {
 
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
         try {
-            AlunoDAO alunoDAO = new AlunoDAO(MDISistema.getConexao());
+            MatriculaDAO matriculaDAO = new MatriculaDAO(MDISistema.getConexao());
             int cod = this.intCampoTelas(txtCodigo.getText());
             if (cod > 0) {
-                Aluno aluno = new Aluno(cod, txtNome.getText(),
-                    txtEndereco.getText(),
-                    Long.valueOf(txtTelefone.getText()));
-                alunoDAO.create(aluno);
+                Disciplina disciplinaAssociada = disciplinaDAO.retrieve(new Disciplina(txtCodigo));
+                Aluno alunoAssociado = alunoDAO.retrieve(new Aluno(txtCodigo));
+                Matricula matricula = new Matricula(cod, txtNome.getText(), disciplinaAssociada, alunoAssociado); 
+                matriculaDAO.create(matricula);
             } else {
-                Aluno aluno = new Aluno(0, txtNome.getText(),
-                    txtEndereco.getText(),
-                    Long.valueOf(txtTelefone.getText()));
-                alunoDAO.create(aluno);
-                txtCodigo.setText(Integer.toString(aluno.getCod()));
+                Matricula matricula = new Matricula(0, txtNome.getText(), new Disciplina(), new Aluno());
+                matriculaDAO.create(matricula);
+                txtCodigo.setText(Integer.toString(matricula.getCod()));
             }
             JOptionPane.showMessageDialog(mdi, "Registro Salvo");
             limpaTela();
             atualizaLista();
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(mdi, String.format("Erro ao salvar aluno: %s", ex.getMessage()), "Erro", JOptionPane.ERROR_MESSAGE);
-            Logger.getLogger(FormAluno.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(mdi, String.format("Erro ao salvar matrícula: %s", ex.getMessage()), "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(FormMatricula.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btSalvarActionPerformed
 
@@ -215,15 +209,15 @@ public class FormMatricula extends javax.swing.JInternalFrame {
         try {
             int cod = this.intCampoTelas(txtCodigo.getText());
             if (cod > 0) {
-                Aluno aluno = new Aluno(cod);
-                AlunoDAO alunoDAO = new AlunoDAO(MDISistema.getConexao());
-                alunoDAO.delete(aluno);
+                Matricula matricula = new Matricula(cod);
+                MatriculaDAO matriculaDAO = new MatriculaDAO(MDISistema.getConexao());
+                matriculaDAO.delete(matricula);
                 limpaTela();
                 atualizaLista();
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(mdi, String.format("Erro ao excluir aluno: %s", ex.getMessage()), "Erro", JOptionPane.ERROR_MESSAGE);
-            Logger.getLogger(FormAluno.class.getName()).log(Level.WARNING, "Erro ao excluir aluno", ex);
+            JOptionPane.showMessageDialog(mdi, String.format("Erro ao excluir matrícula: %s", ex.getMessage()), "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(FormMatricula.class.getName()).log(Level.WARNING, "Erro ao excluir matrícula", ex);
         }
     }//GEN-LAST:event_btExcluirActionPerformed
 
@@ -232,14 +226,18 @@ public class FormMatricula extends javax.swing.JInternalFrame {
             JTable obj = (JTable) evt.getComponent();
             int linha = obj.getSelectedRow();
             Integer cod = (Integer) obj.getModel().getValueAt(linha, 0);
-            Aluno aluno = new Aluno(cod);
-            preencheTelaAluno(aluno); // Chame o método para preencher os campos com os dados do aluno
+            Matricula matricula = new Matricula(cod);
+            preencheTelaMatricula(matricula); // Chame o método para preencher os campos com os dados da matrícula
         }
     }//GEN-LAST:event_tbAlunosMouseClicked
 
     private void btAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtualizarActionPerformed
         this.atualizaLista();
     }//GEN-LAST:event_btAtualizarActionPerformed
+
+    private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCodigoActionPerformed
 
     private int intCampoTelas(String valor) {
         int ret = 0;
@@ -261,44 +259,48 @@ public class FormMatricula extends javax.swing.JInternalFrame {
    
     private void atualizaLista() {
         try {
-            AlunoDAO alunoDAO = new AlunoDAO(MDISistema.getConexao());
-            List<Aluno> lista = alunoDAO.listaTodos();
+            MatriculaDAO matriculaDAO = new MatriculaDAO(MDISistema.getConexao());
+            List<Matricula> lista = matriculaDAO.listaTodos();
             DefaultTableModel dtm = (DefaultTableModel) tbAlunos.getModel();
             dtm.setRowCount(0);
-            for (Aluno aluno : lista) {
-                dtm.addRow(new Object[]{aluno.getCod(), aluno.getNome(), aluno.getEndereco(), aluno.getTelefone()});
+            for (Matricula matricula : lista) {
+                // Assuming getDisciplina() and getAluno() methods in Matricula class
+                Disciplina disciplina = matricula.getDisciplina();
+                Aluno aluno = matricula.getAluno();
+
+                dtm.addRow(new Object[]{matricula.getCod(), matricula.getNome(), aluno.getEndereco(), aluno.getTelefone(), disciplina.getNome(), disciplina.getProfessor()});
             }
             dtm.fireTableDataChanged();
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(mdi, String.format("Erro ao ler os Alunos: %s", ex.getMessage()), "Erro", JOptionPane.ERROR_MESSAGE);
-            Logger.getLogger(FormAluno.class.getName()).log(Level.WARNING, "Erro ao ler os Alunos", ex);
+            JOptionPane.showMessageDialog(mdi, String.format("Erro ao ler as Matrículas: %s", ex.getMessage()), "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(FormMatricula.class.getName()).log(Level.WARNING, "Erro ao ler as Matrículas", ex);
         }
     }
+
     
-    private boolean preencheTelaAluno(Aluno aluno) {
+    private boolean preencheTelaMatricula(Matricula matricula) {
         boolean ret = false;
         try {
-            AlunoDAO alunoDAO = new AlunoDAO(MDISistema.getConexao());
-            aluno = alunoDAO.retrieve(aluno);
-            if (aluno != null && aluno.getCod() > 0) {
-                this.txtCodigo.setText(Integer.toString(aluno.getCod()));
+            MatriculaDAO matriculaDAO = new MatriculaDAO(MDISistema.getConexao());
+            matricula = matriculaDAO.retrieve(matricula);
+            if (matricula != null && matricula.getCod() > 0) {
+                this.txtCodigo.setText(Integer.toString(matricula.getCod()));
                 this.txtCodigo.setEnabled(false);
-                this.txtNome.setText(aluno.getNome());
-                this.txtEndereco.setText(aluno.getEndereco());
-                this.txtTelefone.setText(aluno.getTelefone().toString());
+                this.txtNome.setText(matricula.getNome());
+
+                // Aqui você precisa adaptar conforme a estrutura da classe Matricula
+                // Considerando que Matricula tem Disciplina e Aluno
+                this.txtEndereco.setText(matricula.getAluno().getEndereco());
+                this.txtTelefone.setText(matricula.getAluno().getTelefone().toString());
+
                 ret = true;
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this.mdi, String.format("Não foi possível carregar Aluno: %s", ex.getMessage()), "Erro", JOptionPane.ERROR_MESSAGE);
-            Logger.getLogger(FormAluno.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this.mdi, String.format("Não foi possível carregar Matrícula: %s", ex.getMessage()), "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(FormMatricula.class.getName()).log(Level.SEVERE, null, ex);
         }
         return ret;
     }
-        
-        
-    /**
-     * @param args the command line arguments
-     */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAtualizar;
@@ -307,13 +309,9 @@ public class FormMatricula extends javax.swing.JInternalFrame {
     private javax.swing.JButton btSalvar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tbAlunos;
     private javax.swing.JTextField txtCodigo;
-    private javax.swing.JTextField txtEndereco;
     private javax.swing.JTextField txtNome;
-    private javax.swing.JTextField txtTelefone;
     // End of variables declaration//GEN-END:variables
 }

@@ -16,6 +16,10 @@ public class Matricula {
     
     public Matricula(){
     }
+    
+    public Matricula(int cod){
+        this.cod = cod;
+    }    
 
     public Matricula(int cod, String nome){
         this.cod = cod;
