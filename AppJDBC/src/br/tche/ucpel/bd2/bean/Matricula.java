@@ -16,12 +16,17 @@ public class Matricula {
     
     public Matricula(){
     }
-    
-    public Matricula(int cod, Disciplina disciplina, Aluno aluno, String nome){
+
+    public Matricula(int cod, String nome){
         this.cod = cod;
+        this.nome = nome;
+    }
+    
+    public Matricula(int cod, String nome, Disciplina disciplina, Aluno aluno){
+        this.cod = cod;
+        this.nome = nome;
         this.disciplina = disciplina;
         this.aluno = aluno;
-        this.nome = nome;
     }
     
     public int getCod() {
@@ -32,7 +37,7 @@ public class Matricula {
         this.cod = cod;
     }
 
-    public Disciplina getDepto() {
+    public Disciplina getDisciplina() {
         return disciplina;
     }
 
