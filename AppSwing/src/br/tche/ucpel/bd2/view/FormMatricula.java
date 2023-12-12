@@ -218,21 +218,19 @@ public class FormMatricula extends javax.swing.JInternalFrame {
 
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
         try {
-            MatriculaDAO matriculaDAO = new MatriculaDAO(MDISistema.getConexao());
+            DisciplinaDAO disciplinaDAO = new DisciplinaDAO(MDISistema.getConexao());
+            AlunoDAO alunoDAO = new AlunoDAO(MDISistema.getConexao());
+            MatriculaDAO matriculaDAO = new MatriculaDAO( MDISistema.getConexao());
+            
             int cod = this.intCampoTelas(txtCodigo.getText());
-            if (cod > 0) {
-                Disciplina disciplinaAssociada = disciplinaDAO.retrieve(new Disciplina(Integer.parseInt(txtCodigoD.getText())));
-                Aluno alunoAssociado = alunoDAO.retrieve(new Aluno(Integer.parseInt(txtCodigoA.getText())));
-                Matricula matricula = new Matricula(cod, txtNome.getText(), disciplinaAssociada, alunoAssociado); 
-                matriculaDAO.create(matricula);
-            } else {
-                Matricula matricula = new Matricula(0, txtNome.getText(), new Disciplina(), new Aluno());
-                matriculaDAO.create(matricula);
-                txtCodigo.setText(Integer.toString(matricula.getCod()));
-            }
+            Disciplina disciplinaAssociada = disciplinaDAO.findDisciplinaInDb(  Integer.parseInt(txtCodigoD.getText())    );
+            Aluno alunoAssociado = alunoDAO.findInDb(   Integer.parseInt(txtCodigoA.getText())   );
+            Matricula matricula = new Matricula(cod, txtNome.getText(), disciplinaAssociada, alunoAssociado);
+            matriculaDAO.create(matricula);
             JOptionPane.showMessageDialog(mdi, "Registro Salvo");
             limpaTela();
             atualizaLista();
+            
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(mdi, String.format("Erro ao salvar matrícula: %s", ex.getMessage()), "Erro", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(FormMatricula.class.getName()).log(Level.SEVERE, null, ex);

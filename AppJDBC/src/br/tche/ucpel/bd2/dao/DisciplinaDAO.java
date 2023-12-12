@@ -96,7 +96,24 @@ public List<Disciplina> listaTodos() throws SQLException {
     public boolean valida(Disciplina disciplina) {
         return disciplina != null;
     }
+    
+    public Disciplina findDisciplinaInDb(int cod) {
+        Disciplina disciplina = null;
+        String sql = "SELECT * FROM DISCIPLINA WHERE COD=?";
+        try (PreparedStatement pst = this.conexao.prepareStatement(sql)) {
+            pst.setInt(1, cod);  // Configurando o parâmetro na consulta SQL
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                disciplina = new Disciplina(
+                    rs.getInt("COD"),
+                    rs.getString("NOME"),
+                    rs.getString("PROFESSOR")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return disciplina;
+    }
+
 }
-
-
-

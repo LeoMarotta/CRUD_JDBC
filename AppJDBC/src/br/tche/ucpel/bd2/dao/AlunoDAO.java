@@ -100,4 +100,24 @@ public class AlunoDAO {
     public boolean valida(Aluno aluno) {
         return aluno != null;
     }
+    
+    public Aluno findInDb(int cod) {
+        Aluno aluno = null;
+        String sql = "SELECT * FROM ALUNO WHERE COD=?";
+        try (PreparedStatement pst = this.conexao.prepareStatement(sql)) {
+            pst.setInt(1, cod);  // Configurando o parâmetro na consulta SQL
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                aluno = new Aluno(
+                    rs.getInt("COD"),
+                    rs.getString("NOME"),
+                    rs.getString("ENDERECO"),
+                    rs.getLong("TELEFONE")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return aluno;
+    }
 }
